@@ -50,6 +50,7 @@ public class PgrfFrame extends JFrame {
 
         panel.getGraphics().drawImage(img, 0, 0, img.getWidth(), img.getHeight(), null);
         panel.paintComponents(getGraphics());
+        
     }
 
 
