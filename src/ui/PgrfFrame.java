@@ -1,9 +1,8 @@
 package ui;
 
 import utils.Renderer;
+
 import javax.swing.*;
-import java.awt.*;
-import java.awt.dnd.MouseDragGestureRecognizer;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
@@ -12,7 +11,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class PgrfFrame extends JFrame implements MouseMotionListener {
-    static int FPS = 1000/60;
+    static int FPS = 1000 / 60;
     private BufferedImage img;
     static int width = 800;
     static int height = 600;
@@ -49,21 +48,20 @@ public class PgrfFrame extends JFrame implements MouseMotionListener {
         renderer = new Renderer(img);
 
 
-
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 draw();
             }
-        },100,FPS);
+        }, 100, FPS);
 
-       //  draw();
-}
+        //  draw();
+    }
 
     private void draw() {
         img.getGraphics().fillRect(0, 0, img.getWidth(), img.getHeight());
-        renderer.lineTrivial(300,300,coorX, coorY);
+        renderer.lineDDA(300, 300, coorX, coorY);
 
         panel.getGraphics().drawImage(img, 0, 0, img.getWidth(), img.getHeight(), null);
         panel.paintComponents(getGraphics());
@@ -81,5 +79,7 @@ public class PgrfFrame extends JFrame implements MouseMotionListener {
         coorX = e.getX();
         coorY = e.getY();
     }
+
+
 }
 
