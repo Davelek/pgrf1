@@ -139,7 +139,8 @@ public class Renderer {
 
             lineDDA((int) x0+x1, (int) y0+y1, (int) x+x1, (int) y+y1);
        //potřeba změnit x0,y0
-            
+            x1 = (int)x0+x1;
+            y1 = (int)y0+y1;
 
     }
 
