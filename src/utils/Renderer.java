@@ -6,18 +6,55 @@ import java.awt.image.BufferedImage;
 public class Renderer {
     BufferedImage img;
     private int color;
-
+    private boolean dashed = false;
+    private int count = 0;
 
     public Renderer(BufferedImage img) {
         this.img = img;
-        color = Color.RED.getRGB();
+        color = Color.BLACK.getRGB();
     }
 
+    public void setColor(int color) {
+        this.color = color;
+    }
 
     private void drawPixel(int x, int y) {
         if (x<0||x>=800)return;;
         if (y<0||y>=600)return;;
         img.setRGB(x, y, color);
+    }
+
+    private void drawPixelDashed(int x, int y , int d) {
+        if (x<0||x>=800)return;;
+        if (y<0||y>=600)return;;
+        if (d % 4 < 0){
+
+        }else{
+            dashed = !dashed;
+        }
+        if (dashed) {
+            img.setRGB(x, y, color);
+        }
+
+
+    }
+
+    public void drawDashedLine(int x1, int y1, int x2, int y2){
+
+        float[] floats = doDDA(x1,y1, x2, y2);
+
+        int max = (int)floats[0];
+        float x = floats[1];
+        float y = floats[2];
+        float G = floats[3];
+        float H = floats[4];
+        for (int i = 0; i <= max; i++) {
+            drawPixelDashed(Math.round(x), Math.round(y) , i);
+            x = x + G;
+            y = y + H;
+        }
+
+
     }
 
     public void lineTrivial(int x1, int y1, int x2, int y2) {
@@ -79,8 +116,25 @@ public class Renderer {
 
 
     public void lineDDA(int x1, int y1, int x2, int y2) {
+       float[] floats = doDDA(x1,y1, x2, y2);
+
+        int max = (int)floats[0];
+        float x = floats[1];
+        float y = floats[2];
+        float G = floats[3];
+        float H = floats[4];
+        for (int i = 0; i <= max; i++) {
+            drawPixel(Math.round(x), Math.round(y));
+            x = x + G;
+            y = y + H;
+        }
 
 
+
+    }
+
+    private float[] doDDA(int x1, int y1, int x2, int y2 ){
+        float[] helfer = new float[10];
         int dx, dy;
         float x, y, k, G, H;
         dx = x2 - x1;
@@ -117,13 +171,14 @@ public class Renderer {
         y = y1;
 
         int max = Math.max(Math.abs(dx), Math.abs(dy));
-        for (int i = 0; i <= max; i++) {
-            drawPixel(Math.round(x), Math.round(y));
-            x = x + G;
-            y = y + H;
-        }
+        helfer[0] = max;
+        helfer[1] = x;
+        helfer[2] = y;
+        helfer[3] = G;
+        helfer[4] = H;
 
 
+        return helfer;
     }
 
     public void polygon(int x1, int y1, int x2, int y2, int count){

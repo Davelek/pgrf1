@@ -7,11 +7,14 @@ import utils.Renderer;
 
         int x1,y1,x2,y2;
 
-        public Line(int x1, int y1, int x2, int y2) {
-            this.y1 = y1;
-            this.y2 = y2;
-            this.x1 = x1;
-            this.x2 = x2;
+
+        public Line(Point p) {
+            this.y1 = p.getY();
+
+            this.x1 = p.getX();
+            this.x2=0;
+            this.y2=0;
+
         }
 
         public int getX1() {
@@ -33,9 +36,15 @@ import utils.Renderer;
         @Override
         public void draw(Renderer renderer) {
             // todo
-
+            if (x2 != 0 && y2 != 0)
             renderer.lineDDA(x1,y1,x2,y2);
 
+        }
+
+        @Override
+        public void addPoint(Point p) {
+            this.y2 = p.getY();
+            this.x2 = p.getX();
         }
     }
 
