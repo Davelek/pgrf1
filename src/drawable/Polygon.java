@@ -5,7 +5,7 @@ import utils.Renderer;
 public class Polygon implements Drawable {
     private Point point;
     private Point point2;
-    private int count = 5;
+    private int count ;
     private boolean moznoUdelat = false;
 
     public Polygon(Point point) {

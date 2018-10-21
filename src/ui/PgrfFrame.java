@@ -74,6 +74,7 @@ private DrawableType type = DrawableType.POLYGON;
                         startY = clickY;
                         drawables.add(new Line(new Point(clickX, clickY)));
                         index++;
+                        drawables.get(index).count(count);
 
                     } else {
 
