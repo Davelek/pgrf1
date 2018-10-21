@@ -67,7 +67,7 @@ private DrawableType type = DrawableType.POLYGON;
             @Override
             public void mouseReleased(MouseEvent e) {
                 if(type ==DrawableType.LINE) {
-                    if(e.getButton() == MouseEvent.BUTTON3) {
+                    if(e.getButton() == MouseEvent.BUTTON3 && !firstClick) {
                         //  drawables.get(index).draw(renderer);
                         firstClick = !firstClick;
 
@@ -81,7 +81,7 @@ private DrawableType type = DrawableType.POLYGON;
                         drawables.add(new Line(new Point(clickX, clickY)));
                         index++;
                         drawables.get(index).count(count);
-
+                        firstClick = !firstClick;
                     } else {
 
                         clickX = e.getX();
@@ -89,10 +89,10 @@ private DrawableType type = DrawableType.POLYGON;
                         drawables.get(index).addPoint(new Point(clickX, clickY));
                        // drawables.get(index).draw(renderer);
 
-
+                        firstClick = !firstClick;
 
                     }
-                    firstClick = !firstClick;
+
                 }
                 if (type == DrawableType.N_OBJECT){
                     //TODO váš n-úhelník
@@ -152,7 +152,6 @@ private DrawableType type = DrawableType.POLYGON;
                     }
 
 
-
                 }
              //   drawables.add(new Line(e.getX(),e.getY()));
             super.mouseReleased(e);
@@ -161,27 +160,22 @@ private DrawableType type = DrawableType.POLYGON;
         addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_UP) {
+                if (e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_ADD)  {
                     //šipka nahoru
                 count++;
                     drawables.get(index).count(count);
                 }
 
 
-                if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+                if (e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_SUBTRACT) {
                     //plus na numerické klávesnici
                     if (count == 3) return;
                     count--;
                     drawables.get(index).count(count);
                 }
 
-                if (e.getKeyCode() == KeyEvent.VK_ADD) {
-                    //plus na numerické klávesnici
-                }
 
-                if (e.getKeyCode() == KeyEvent.VK_SUBTRACT) {
-                    //minus na numerické klávesnici
-                }
+
 
                 if (e.getKeyCode() == KeyEvent.VK_L) {
                     if (type == DrawableType.LINE) {
