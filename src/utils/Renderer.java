@@ -7,16 +7,13 @@ public class Renderer {
     BufferedImage img;
     private int color;
     private boolean dashed = false;
-    private int count = 0;
+
 
     public Renderer(BufferedImage img) {
         this.img = img;
         color = Color.BLACK.getRGB();
     }
 
-    public void setColor(int color) {
-        this.color = color;
-    }
 
     public void setColorByString(String s){
         switch (s){
@@ -212,12 +209,12 @@ public class Renderer {
 
         double step = circleRadius/(double) count;
         for (double i = 0; i < circleRadius; i+=step){
-            //dle rotační matice
+
             double x = x0*Math.cos(step) + y0 *Math.sin(step);
             double y = y0*Math.cos(step) - x0 *Math.sin(step);
 
             lineDDA((int) x0+x1, (int) y0+y1, (int) x+x1, (int) y+y1);
-            //potřeba změnit x0,y0
+
             x0 = (int)x;
             y0 = (int)y;
 

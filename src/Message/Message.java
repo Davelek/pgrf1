@@ -1,17 +1,9 @@
-package Message;
+package message;
 
-import drawable.DrawableType;
 
 import javax.swing.*;
 
 public class Message {
-
-
-
-    //   private String upozorneni;
-   // private Object[] possibilities;
-  //  private String title;
-  //  private String starting;
 
     public Message() {
     }
@@ -21,10 +13,6 @@ public class Message {
                 JOptionPane.showMessageDialog(frame,
                         upozorneni);
     }
-
-   /* public void setPossibilities(Object[] possibilities) {
-        this.possibilities = possibilities;
-    }*/
 
     public String vyber(String upozorneni, String title, Object[] moznosti, String prvni){
 

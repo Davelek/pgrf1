@@ -24,9 +24,6 @@ public class Polygon implements Drawable {
         this.count = count;
     }
 
-    /*public void setCount(int count) {
-        this.count = count;
-    }*/
 
     @Override
     public void draw(Renderer renderer) {
