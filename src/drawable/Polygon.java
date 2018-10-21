@@ -24,15 +24,14 @@ public class Polygon implements Drawable {
         this.count = count;
     }
 
-    public void setCount(int count) {
+    /*public void setCount(int count) {
         this.count = count;
-    }
+    }*/
 
     @Override
     public void draw(Renderer renderer) {
         if (moznoUdelat){
-            renderer.polygon(point.getX(),point.getY(), point2.getX(),point2.getX(), count);
-
+            renderer.polygon(point.getX(),point.getY(), point2.getX(),point2.getY(), count);
         }
 
     }

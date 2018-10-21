@@ -18,6 +18,27 @@ public class Renderer {
         this.color = color;
     }
 
+    public void setColorByString(String s){
+        switch (s){
+            case "Černá":
+                color =(Color.BLACK.getRGB());
+                break;
+            case "Červená":
+                color =(Color.RED.getRGB());
+                break;
+            case "Modrá":
+                color =(Color.BLUE.getRGB());
+                break;
+            case "Zelená":
+                color =(Color.GREEN.getRGB());
+                break;
+
+            case "Růžová":
+                color =(Color.PINK.getRGB());
+                break;
+        }
+    }
+
     private void drawPixel(int x, int y) {
         if (x<0||x>=800)return;;
         if (y<0||y>=600)return;;
@@ -35,6 +56,8 @@ public class Renderer {
         if (dashed) {
             img.setRGB(x, y, color);
         }
+
+
 
 
     }

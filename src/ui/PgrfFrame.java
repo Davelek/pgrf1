@@ -1,5 +1,6 @@
 package ui;
 
+import Message.Message;
 import drawable.Drawable;
 import drawable.DrawableType;
 import drawable.Line;
@@ -66,6 +67,11 @@ private DrawableType type = DrawableType.POLYGON;
             @Override
             public void mouseReleased(MouseEvent e) {
                 if(type ==DrawableType.LINE) {
+                    if(e.getButton() == MouseEvent.BUTTON3) {
+                        //  drawables.get(index).draw(renderer);
+                        firstClick = !firstClick;
+
+                    }else
                     if (firstClick) {
 
                         clickX = e.getX();
@@ -125,11 +131,18 @@ private DrawableType type = DrawableType.POLYGON;
                 }
                 if (type == DrawableType.POLYGON){
                     //TODO polygon
+                    if(e.getButton() == MouseEvent.BUTTON3 && !firstClick) {
+                        //  drawables.get(index).draw(renderer);
+                        firstClick = !firstClick;
+                        //last = true;
+
+                    }else
                     if (firstClick) {
                         clickX = e.getX();
                         clickY = e.getY();
-                        index++;
+                        index += 1;
                         drawables.add(new Polygon(new Point(clickX, clickY)));
+                        drawables.get(index).count(count);
                         firstClick = !firstClick;
                     }else{
                         clickX = e.getX();
@@ -172,14 +185,11 @@ private DrawableType type = DrawableType.POLYGON;
 
                 if (e.getKeyCode() == KeyEvent.VK_L) {
                     if (type == DrawableType.LINE) {
-
-                        JOptionPane frame = new JOptionPane();
-                        JOptionPane.showMessageDialog(frame,
-                                "Linka už je zvolena");
+                        Message message = new Message();
+                        message.upozorneni("Linka už je zvolena");
                     } else {
-                        JOptionPane frame = new JOptionPane();
-                        JOptionPane.showMessageDialog(frame,
-                                "Zvolil jste Linku");
+                        Message message = new Message();
+                        message.upozorneni("Zvolili jste linku");
                         type = DrawableType.LINE;
                         firstClick = true;
 
@@ -188,14 +198,12 @@ private DrawableType type = DrawableType.POLYGON;
                 }
                 if (e.getKeyCode() == KeyEvent.VK_N) {
                     if (type == DrawableType.N_OBJECT) {
-                        JOptionPane frame = new JOptionPane();
-                        JOptionPane.showMessageDialog(frame,
-                                "N-úhelník už je zvolen");
+                        Message message = new Message();
+                        message.upozorneni("N-uhelník už je zvolen");
                     } else {
 
-                        JOptionPane frame = new JOptionPane();
-                        JOptionPane.showMessageDialog(frame,
-                                "Zvolil jste N-Uhélník");
+                        Message message = new Message();
+                        message.upozorneni("Zvolili jste N-Uhelník");
                         type = DrawableType.N_OBJECT;
 
                         points = new ArrayList<>();
@@ -205,13 +213,11 @@ private DrawableType type = DrawableType.POLYGON;
 
                 if (e.getKeyCode() == KeyEvent.VK_P) {
                     if (type == DrawableType.POLYGON) {
-                        JOptionPane frame = new JOptionPane();
-                        JOptionPane.showMessageDialog(frame,
-                                "Polygon už je zvolen");
+                        Message message = new Message();
+                        message.upozorneni("Polygon už je zvolen");
                     } else {
-                        JOptionPane frame = new JOptionPane();
-                        JOptionPane.showMessageDialog(frame,
-                                "Zvolil jste Polygon");
+                        Message message = new Message();
+                        message.upozorneni("Zvolili jste Polygon");
                         type = DrawableType.POLYGON;
                         firstClick = true;
                     }
@@ -219,37 +225,21 @@ private DrawableType type = DrawableType.POLYGON;
 
 
                 if (e.getKeyCode() == KeyEvent.VK_C) {
-                    JOptionPane frame = new JOptionPane();
+                 //   JOptionPane frame = new JOptionPane();
+                    Message message = new Message();
                     Object[] possibilities = {"Černá", "Červená", "Modrá", "Zelená", "Růžová"};
-                    String s = (String) JOptionPane.showInputDialog(
+                    String s = message.vyber("Vyberte barvu: ", "Výběr barvy",possibilities, "Černá");
+                    renderer.setColorByString(s);
 
-                            frame,
-                            "Vyberte barvu: "
-                            ,
-                            "Výběr barvy",
-                            JOptionPane.PLAIN_MESSAGE,
-                            null,
-                            possibilities,
-                            "Černá");
+                }
 
-                    switch (s){
-                        case "Černá":
-                            renderer.setColor(Color.BLACK.getRGB());
-                            break;
-                        case "Červená":
-                            renderer.setColor(Color.RED.getRGB());
-                            break;
-                        case "Modrá":
-                            renderer.setColor(Color.BLUE.getRGB());
-                            break;
-                        case "Zelená":
-                            renderer.setColor(Color.GREEN.getRGB());
-                            break;
 
-                        case "Růžová":
-                            renderer.setColor(Color.PINK.getRGB());
-                            break;
-                    }
+                if (e.getKeyCode() == KeyEvent.VK_SPACE){
+
+                    Message message = new Message();
+                    Object[] possibilities = {"Linie", "N-úhelník", "Polygon"};
+                    String s = message.vyber("Vyberte typ: ", "Výběr typu",possibilities, "Linie");
+                    zmenitType(s);
 
                 }
 
@@ -301,6 +291,7 @@ private DrawableType type = DrawableType.POLYGON;
 
         for (Drawable drawable:drawables
              ) {
+
             drawable.draw(renderer);
 
         }
@@ -325,6 +316,22 @@ private DrawableType type = DrawableType.POLYGON;
         coorY = e.getY();
 
 
+
+    }
+
+   private void zmenitType(String s){
+       switch (s){
+           case "Linie":
+               type = DrawableType.LINE;
+               break;
+           case "N-úhelník":
+               type = DrawableType.N_OBJECT;
+               break;
+           case "Polygon":
+               type = DrawableType.POLYGON;
+               break;
+
+       }
 
     }
 
