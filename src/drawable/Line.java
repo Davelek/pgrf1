@@ -7,6 +7,10 @@ import utils.Renderer;
 
         int x1,y1,x2,y2;
 
+        @Override
+        public void count(int count) {
+
+        }
 
         public Line(Point p) {
             this.y1 = p.getY();

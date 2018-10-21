@@ -5,13 +5,13 @@ import drawable.DrawableType;
 import drawable.Line;
 import drawable.Nuhelnik;
 import drawable.Point;
+import drawable.Polygon;
 import utils.Renderer;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
-import java.security.Key;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -28,7 +28,7 @@ public class PgrfFrame extends JFrame implements MouseMotionListener {
     private int clickX = 300;
     private int clickY = 300;
     private int count = 5; //TODO - nesmí klesnout pod 3!
-Boolean firstClickLine=true;
+Boolean firstClick =true;
     private int startX;
     private int startY;
     private int k,l;
@@ -36,7 +36,7 @@ Boolean firstClickLine=true;
     private List<Point> points;
     private int index = -1;
 
-private DrawableType type = DrawableType.LINE;
+private DrawableType type = DrawableType.POLYGON;
 
 
 
@@ -66,7 +66,7 @@ private DrawableType type = DrawableType.LINE;
             @Override
             public void mouseReleased(MouseEvent e) {
                 if(type ==DrawableType.LINE) {
-                    if (firstClickLine) {
+                    if (firstClick) {
 
                         clickX = e.getX();
                         clickY = e.getY();
@@ -85,24 +85,24 @@ private DrawableType type = DrawableType.LINE;
 
 
                     }
-                    firstClickLine = !firstClickLine;
+                    firstClick = !firstClick;
                 }
                 if (type == DrawableType.N_OBJECT){
                     //TODO váš n-úhelník
 
                     if(e.getButton() == MouseEvent.BUTTON3) {
                         //  drawables.get(index).draw(renderer);
-                        firstClickLine = !firstClickLine;
+                        firstClick = !firstClick;
                         last = true;
 
                     }else {
-                        if (firstClickLine) {
+                        if (firstClick) {
                             last = false;
                             clickX = e.getX();
                             clickY = e.getY();
                             startX = clickX;
                             startY = clickY;
-                            firstClickLine = !firstClickLine;
+                            firstClick = !firstClick;
                             //    points.add(new Point(clickX, clickY));
                             drawables.add(new Nuhelnik());
                             index++;
@@ -124,6 +124,21 @@ private DrawableType type = DrawableType.LINE;
                 }
                 if (type == DrawableType.POLYGON){
                     //TODO polygon
+                    if (firstClick) {
+                        clickX = e.getX();
+                        clickY = e.getY();
+                        index++;
+                        drawables.add(new Polygon(new Point(clickX, clickY)));
+                        firstClick = !firstClick;
+                    }else{
+                        clickX = e.getX();
+                        clickY = e.getY();
+                        firstClick = !firstClick;
+                        drawables.get(index).addPoint(new Point(clickX,clickY));
+                    }
+
+
+
                 }
              //   drawables.add(new Line(e.getX(),e.getY()));
             super.mouseReleased(e);
@@ -134,8 +149,8 @@ private DrawableType type = DrawableType.LINE;
             public void keyReleased(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_UP) {
                     //šipka nahoru
-
-                    count++;
+                count++;
+                    drawables.get(index).count(count);
                 }
 
 
@@ -143,6 +158,7 @@ private DrawableType type = DrawableType.LINE;
                     //plus na numerické klávesnici
                     if (count == 3) return;
                     count--;
+                    drawables.get(index).count(count);
                 }
 
                 if (e.getKeyCode() == KeyEvent.VK_ADD) {
@@ -164,7 +180,7 @@ private DrawableType type = DrawableType.LINE;
                         JOptionPane.showMessageDialog(frame,
                                 "Zvolil jste Linku");
                         type = DrawableType.LINE;
-                        firstClickLine = true;
+                        firstClick = true;
 
                     }
 
@@ -182,7 +198,7 @@ private DrawableType type = DrawableType.LINE;
                         type = DrawableType.N_OBJECT;
 
                         points = new ArrayList<>();
-                        firstClickLine = true;
+                        firstClick = true;
                     }
                 }
 
@@ -196,7 +212,7 @@ private DrawableType type = DrawableType.LINE;
                         JOptionPane.showMessageDialog(frame,
                                 "Zvolil jste Polygon");
                         type = DrawableType.POLYGON;
-                        firstClickLine = true;
+                        firstClick = true;
                     }
                 }
 
@@ -261,9 +277,9 @@ private DrawableType type = DrawableType.LINE;
     private void draw() {
         img.getGraphics().fillRect(0, 0, img.getWidth(), img.getHeight());
 
-       /* if (type == DrawableType.LINE && !firstClickLine)  {
+       /* if (type == DrawableType.LINE && !firstClick)  {
 
-        }else if(type == DrawableType.N_OBJECT && !firstClickLine){
+        }else if(type == DrawableType.N_OBJECT && !firstClick){
             renderer.lineDDA(clickX, clickY, coorX, coorY);
             renderer.lineDDA(startX, startY, coorX, coorY);
 
@@ -271,12 +287,17 @@ private DrawableType type = DrawableType.LINE;
 //        renderer.lineDDA(clickX, clickY, coorX, coorY);
 //        renderer.polygon(clickX, clickY, coorX, coorY,count);
 
-        if (!firstClickLine){
+        if (!firstClick && type != DrawableType.POLYGON){
             renderer.drawDashedLine(clickX,clickY,coorX,coorY);
            if (type == DrawableType.N_OBJECT)
             renderer.drawDashedLine(startX,startY,coorX,coorY);
 
         }
+        if (type == DrawableType.POLYGON && !firstClick){
+            renderer.polygon(clickX,clickY,coorX,coorY,count);
+        }
+
+
         for (Drawable drawable:drawables
              ) {
             drawable.draw(renderer);

@@ -10,6 +10,10 @@ public class Nuhelnik implements Drawable{
     List<Point> points;
     private int index = -1;
 
+    @Override
+    public void count(int count) {
+
+    }
 
     public Nuhelnik() {
         points = new ArrayList<>();

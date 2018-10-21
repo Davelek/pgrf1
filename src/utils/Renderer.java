@@ -182,6 +182,7 @@ public class Renderer {
     }
 
     public void polygon(int x1, int y1, int x2, int y2, int count){
+
         double x0 = x2-x1;
         double y0 = y2-y1;
         double circleRadius = 2*Math.PI;
@@ -193,12 +194,11 @@ public class Renderer {
             double y = y0*Math.cos(step) - x0 *Math.sin(step);
 
             lineDDA((int) x0+x1, (int) y0+y1, (int) x+x1, (int) y+y1);
-       //potřeba změnit x0,y0
-            x1 = (int)x0+x1;
-            y1 = (int)y0+y1;
+            //potřeba změnit x0,y0
+            x0 = (int)x;
+            y0 = (int)y;
 
-    }
-
+        }
     }
 }
 
